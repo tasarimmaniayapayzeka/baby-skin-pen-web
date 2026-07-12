@@ -51,7 +51,8 @@ h1 i,h2 i{font-style:italic;color:var(--sky-strong)}
 .rv.on{opacity:1;transform:none}
 
 /* HEADER */
-.hd{position:sticky;top:0;z-index:70;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.hd{position:sticky;top:0;z-index:70;border-bottom:1px solid var(--line)}
+.hd::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);z-index:-1}
 .hd .wrap{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-top:14px;padding-bottom:14px}
 .hd-logo img{height:42px;width:auto}
 .hd-right{display:flex;align-items:center;gap:14px}
@@ -60,6 +61,35 @@ h1 i,h2 i{font-style:italic;color:var(--sky-strong)}
 .hd-tel .ico{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--sky),var(--sky-strong));color:#fff;display:grid;place-items:center;font-size:1.15rem;animation:jiggle 3s infinite}
 @keyframes jiggle{0%,90%,100%{transform:rotate(0)}92%{transform:rotate(-12deg)}94%{transform:rotate(10deg)}96%{transform:rotate(-7deg)}98%{transform:rotate(4deg)}}
 .hd-cta{padding:12px 22px;font-size:.92rem}
+
+/* MENÜ */
+section[id]{scroll-margin-top:86px}
+.hd-nav{display:flex;align-items:center;gap:4px;margin:0 auto}
+.hd-nav a{font-size:.88rem;font-weight:700;color:var(--slate);padding:8px 11px;border-radius:9px;transition:.2s;white-space:nowrap}
+.hd-nav a:hover{color:var(--sky-strong);background:var(--ice)}
+.hd-nav a.on{color:var(--sky-strong);background:var(--ice)}
+.hd-nav a.nv-kamp{color:var(--gold-2)}
+.hd-nav a.nv-kamp:hover{background:#faf3dd}
+.nav-cta{display:none}
+.hamb{display:none;width:46px;height:46px;border-radius:13px;border:1px solid var(--line);background:#fff;cursor:pointer;place-items:center;position:relative;z-index:96;flex-shrink:0}
+.hamb span{display:block;width:20px;height:2px;background:var(--slate-ink);border-radius:2px;margin:2.5px 0;transition:.3s}
+.hamb.x span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamb.x span:nth-child(2){opacity:0}
+.hamb.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-bg{position:fixed;inset:0;z-index:60;background:rgba(22,35,63,.5);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s}
+body.nav-acik .sticky{opacity:0;pointer-events:none}
+.nav-bg.on{opacity:1;pointer-events:auto}
+@media(max-width:1250px){.hd-tel .txt{display:none}}
+@media(max-width:1020px){
+  .hd-cta{display:none}
+  .hamb{display:grid}
+  .hd-nav{position:fixed;top:0;right:0;bottom:0;z-index:80;width:min(330px,86vw);background:#fff;flex-direction:column;align-items:stretch;gap:0;margin:0;padding:86px 24px 24px;box-shadow:-20px 0 60px rgba(22,35,63,.25);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.7,.2,1);overflow-y:auto}
+  .hd-nav.open{transform:none}
+  .hd-nav a{font-size:1.05rem;padding:15px 6px;border-radius:0;border-bottom:1px solid var(--line)}
+  .hd-nav a:hover,.hd-nav a.on{background:none}
+  .nav-cta{display:grid;gap:10px;margin-top:auto;padding-top:22px}
+  .nav-cta .btn{justify-content:center;font-size:.95rem}
+}
 
 /* HERO */
 .hero{position:relative;color:#fff;overflow:hidden;
@@ -319,12 +349,26 @@ a.crow:hover{background:rgba(255,255,255,.14);transform:translateX(5px)}
 <header class="hd">
   <div class="wrap">
     <a href="#top" class="hd-logo"><img src="assets/img/logo-acik.png" alt="Baby Skin Pen"></a>
+    <nav class="hd-nav" id="hdnav" aria-label="Ana menü">
+      <a href="#nedir">Nedir?</a>
+      <a href="#led">LED Işıklar</a>
+      <a href="#kapsuller">Kapsüller</a>
+      <a href="#serumlar">Serumlar</a>
+      <a href="#kampanya" class="nv-kamp">☀️ Yaz Kampanyası</a>
+      <a href="#sss">SSS</a>
+      <a href="#iletisim">İletişim</a>
+      <div class="nav-cta">
+        <a href="tel:+905332853077" class="btn btn-call">📞 0533 285 30 77</a>
+        <a href="https://wa.me/905332853077?text=Merhaba%2C%20Baby%20Skin%20Pen%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn btn-wa">💬 WhatsApp'tan Yazın</a>
+      </div>
+    </nav>
     <div class="hd-right">
       <a href="tel:+905332853077" class="hd-tel">
         <span class="ico">📞</span>
         <span class="txt"><small>Bilgi &amp; Sipariş</small>0533 285 30 77</span>
       </a>
       <a href="tel:+905332853077" class="btn btn-sky hd-cta">Hemen Ara</a>
+      <button class="hamb" id="hamb" type="button" aria-label="Menüyü aç" aria-expanded="false" aria-controls="hdnav"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -719,6 +763,38 @@ document.querySelectorAll('.serum > img, .duo-media > img, .cap > .cap-img').for
 const lbClose = () => { lb.classList.remove('on'); document.body.style.overflow = ''; };
 lb.addEventListener('click', e => { if (e.target !== lbImg) lbClose(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') lbClose(); });
+
+// Mobil menü
+const hamb = document.getElementById('hamb');
+const nav = document.getElementById('hdnav');
+const navBg = document.createElement('div');
+navBg.className = 'nav-bg';
+document.body.appendChild(navBg);
+const navToggle = open => {
+  nav.classList.toggle('open', open);
+  navBg.classList.toggle('on', open);
+  hamb.classList.toggle('x', open);
+  hamb.setAttribute('aria-expanded', open);
+  hamb.setAttribute('aria-label', open ? 'Menüyü kapat' : 'Menüyü aç');
+  document.body.classList.toggle('nav-acik', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+};
+hamb.addEventListener('click', () => navToggle(!nav.classList.contains('open')));
+navBg.addEventListener('click', () => navToggle(false));
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navToggle(false)));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('open')) navToggle(false); });
+
+// Kaydırma casusu — görünen bölümün menü linkini işaretle
+const spyIds = ['nedir', 'led', 'kapsuller', 'serumlar', 'kampanya', 'sss', 'iletisim'];
+const spy = new IntersectionObserver(es => {
+  es.forEach(e => {
+    if (e.isIntersecting) {
+      nav.querySelectorAll('a[href^="#"]').forEach(a =>
+        a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { rootMargin: '-35% 0px -55% 0px' });
+spyIds.forEach(id => { const el = document.getElementById(id); if (el) spy.observe(el); });
 </script>
 </body>
 </html>
