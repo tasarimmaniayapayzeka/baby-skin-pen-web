@@ -6,4 +6,6 @@ deployment:
     - /bin/cp -f index.html $DEPLOYPATH/index.html
     - /bin/cp -f landing.html $DEPLOYPATH/landing.html
     - /bin/cp -f eski-kurumsal.html $DEPLOYPATH/eski-kurumsal.html
+    - /bin/cp -f robots.txt $DEPLOYPATH/robots.txt
+    - /bin/cp -f sitemap.xml $DEPLOYPATH/sitemap.xml
     - /bin/cp -Rf assets $DEPLOYPATH/
