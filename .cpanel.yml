@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/babyskinpen/public_html
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -f index.html $DEPLOYPATH/index.html
+    - /bin/cp -f landing.html $DEPLOYPATH/landing.html
+    - /bin/cp -f eski-kurumsal.html $DEPLOYPATH/eski-kurumsal.html
+    - /bin/cp -Rf assets $DEPLOYPATH/
